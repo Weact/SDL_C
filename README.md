@@ -10,7 +10,7 @@ GITHUB Repository for every future projects in SDL C / C++.
 
 ## Q.1
 ### What is SDL 2 ? (10 pts)
-
+SDL2 is 
 
 ## Q.2
 ### What does SDL 2 do ? (10 pts)
@@ -99,7 +99,7 @@ GITHUB Repository for every future projects in SDL C / C++.
 
 
 ## Q.21
-### Textueres : (10 pts)
+### Textures : (10 pts)
 ### What is a texture ?
 #### Give the code allowing to create a texture
 
