@@ -50,7 +50,31 @@ __LAPTOP REQUIRED FOR THIS QUESTION__
 ## Q.6
 ### To use SDL 2 in your project, you have to initialize SDL 2.
 #### What are these initializion steps to use SDL 2 library ? Give the code and explain each instructions with precision. (15 pts)
-__LAPTOP REQUIRED FOR THIS QUESTION__
+```c
+//First, we have to include SDL2 library as following :
+#include <SDL2/SDL.h> 	//Replace the given path by your SDL location.
+			//Exemple: If your SDL2 folder is located 2 folder before your projects, it should looks like this :
+			//#include <../../SDL2/SDL.h> => the ../ redirect to the parent folder.
+
+int main(int arc, char *argv[]) //We obviously need the main in our program.
+{
+
+//Secondly, we have now to *initialize* SDL2 by doing this way:
+
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) 	//SDL_Init initialize SDL Library.
+						//Then we check if video subsystem events have been successfully initialized by
+						//comparing SDL_INIT_VIDEO.
+	{
+		printf("Error initializing SDL : %s", SDL_GetError()); 	//Video events could not be initialized. We display it to the 										//user and display the ERROR Code
+		return EXIT_FAILURE;
+	}
+	//If your program can now run without any message and the console and instantly close. SDL has been successfully initialized.
+	//Congratulation !
+	
+	SDL_Quit();
+	return 0;
+}
+```
 
 ## Q.7
 ### How to create a window with SDL 2 ? (10 pts)
@@ -116,21 +140,179 @@ int main(int argc, char *argv[])
 ### Renderer: (15 pts)
 #### What are a Renderer ? How is it associated to a SDL 2 Window ?
 #### Give and explain the corresponding code to manage a Renderer, Creation, Display and Deletion.
+* A renderer is a _Render Engine_ used for our windows.
+	* Code and Explanation :
 
+```c
+#include <SDL2/SDL.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+	SDL_Window* window; //Window declaration
+	SDL_Renderer* renderer; //NEW LINE ! => This is how we declare the renderer.
+	
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
+	{
+		printf("Error initializing SDL : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+	//NEW LINE ! => Here, we create a new window using the following parameters:
+	//Title, X position, Y position, Width, Height, Flag.
+	// SDL_WINDOWPOS_CENTERED as X and Y position will make the window appearing at the center of the screen.
+	// 1280 x 720 will be the size of our window.
+	// SDL_WIDNDOW_RESIZABLE will allow the user to resize the window as he wishes.
+	
+	if(window == NULL) //errors management
+	{
+		printf("Error creating the window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	//RENDERER CREATION
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	//NEW LINE! => We create the Renderer of the Window using 3 parameters :
+	//Window where rendering is displayed
+	//SDL_RENDERER_ACCELERATED to use hardware acceleration
+	
+	if(renderer == NULL) //errors management
+	{
+		printf("Error creating the renderer : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	//To test the renderer, we will want to display something in our window.
+	//First, Select a color by using the following function :
+	SDL_SetRenderDrawColor(renderer, 255,0,255,255);
+			//PARAMETERS: renderer, red, green, blue, alpha (0>255)
+	
+	//Then clear the window by using SDL_RenderClear function
+	SDL_RenderClear(renderer);
+	
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_RenderPresent(renderer);
+	
+	//We can also create a renderer and a window at the same time this way :
+	/*
+			// PARAMETERS : width, height, flag, &window, &renderer
+	if(SDL_CreateWindowAndRenderer(1280,720, SDL_WINDOW_RESIZABLE,&window,&renderer) < 0)
+	{
+		printf("Error creating renderer and window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	*/
+	
+	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
+	
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
+}
+```
 
 ## Q.10
 ### SDL_Point and SDL_Rect : (5 pts)
 #### Give and explain the code of SDL_Point and SDL_Rect
+_SDL_Point_ :
+```c
+typedef struct{
+	int x;
+	int y;
+}SDL_Point
 
+//Here, we are going to create a table that have 10 points.
+SDL_Point points[9]
+for(int i = 0; i<=9; i++)
+{
+	points[i].x = i+10;
+	points[i].y = SDL_WINDOWPOS_CENTERED;
+	//This for loop will initialize the x and y position of the points in our table named points.
+}
 
+//We can also draw a line using SDL_RenderDrawLine function, this way :
+//	SDL_RenderDrawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
+//EX:	SDL_RenderDrawLine(renderer, 100, 100, 300, 300);
+
+SDL_RenderDrawPoints(renderer, points, 9); //Initialize and create the points on the screen
+SDL_RenderPresent(renderer);
+```
+_SDL_Rect_ :
+```c
+typedef struct{
+	Sint16 x, y;
+	Sint16 w, h;
+}SDL_Rect;
+
+//Creating a rect :
+SDL_Rect rectangle = {0,0,100,100};
+
+```
 ## Q.11
 ### Colors with SDL 2 : (? pts)
 #### Give the instructions to allow the color management in SDL 2.
-
+```c
+SDL_Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+//red, green, blue, alpha values for the color
+```
 
 ## Q.12
-### Give the code to display a red square. (? pts)
+### Give the code to display a red background. (? pts)
+```c
+#include <SDL2/SDL.h>
+#include <stdio.h>
+#include <stdlib.h>
 
+int main(int argc, char *argv[])
+{
+	SDL_Window* window; //Window declaration
+	SDL_Renderer* renderer; //Renderer declaration
+	
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
+	{
+		printf("Error initializing SDL : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+	
+	if(window == NULL) //errors management
+	{
+		printf("Error creating the window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	//RENDERER CREATION
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	
+	if(renderer == NULL) //errors management
+	{
+		printf("Error creating the renderer : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+	
+	//Red color
+	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
+	
+	//Then clear the window by using SDL_RenderClear function
+	SDL_RenderClear(renderer);
+	
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_RenderPresent(renderer);
+	
+	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
+	
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
+	
+	//This will display a red window, wait 3s and close.
+}
+```
 
 ## Q.13
 ### Draw in the renderer : (? pts)
@@ -139,15 +321,22 @@ int main(int argc, char *argv[])
 
 ## Q.14
 ### What are the functions to draw dots and lines ?(10 pts)
-
+As mentionned previously, those functions allow us to draw dots and lines :
+```c
+//Dots:
+SDL_RenderDrawPoint(renderer, 100, 100);
+```
 
 ## Q.15
 ### What is the point of SDL_RenderClear and SDL_RenderPresent functions ? (5 pts)
-
+* SDL_RenderClear
+	* This function is used to clear the current rendering target with the drawing color
+* SDL_RenderPresent
+	* This function is used to update the screen with any rendering performed since the previous call.
 
 ## Q.16
 ### Explain SDL_Delay ? (5 pts)
-
+SDL_Delay makes the program waiting a specified number of milliseconds before returning.
 
 ## Q.17
 ### What is a surface in SDL 2 ? (5 pts)
