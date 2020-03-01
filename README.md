@@ -31,7 +31,45 @@ We can use SDL2 on Windows, MAC OSX and Linux.
 ## Q.4
 ### How to get and How to install SDL 2 on an Editor ? (10 pts)
 #### Give each configuration step of a SDL 2 project with CodeBlocks (gcc)
-__LAPTOP REQUIRED FOR THIS QUESTION__
+1. Go to https://www.libsdl.org/download-2.0.php and download _SDL2-devel-2.0.10-mingw.tar.gz_ folder.
+2. Extract the _i686-w64-mingw32_ folder on your desktop.
+3. Copy the *SDL2* folder in _i686-w64-mingw32/include/_ in your project's folder.
+	3. For exemple in this project, we have 4 cores folders :
+		3. SDL2/ *SDL2 include library*
+		3. WhatIsThis/ *.c and .h files*
+		3. .gitignore *list of folders not to git*
+		3. README.md *this file*
+4. After copying the folder, open Code::Blocks.
+5. Create a C Console Application project.
+6. Click on Project
+	6. Build properties
+		6.Verify that you are in Debug on the left side of the new window that appeared.
+	6. Linker settings
+	6. __On Link libraries__ :
+		6. Add
+			6. Search for the _CodeBlcoks/MinGW/lib/libmingw32.a_ folder and click on OK
+			6. Search for the _i686-w64-mingw32/lib/libSDL2main.a_ folder and click on OK
+			6. Do the same for _i686-w64-mungw32/lib/libSDL2.dll.a_ folder and click on OK
+	6. On __Other Linker Options__ :
+		6. Write :
+			6. -lmingw32
+			6. -lSDL2main
+			6. -lSDL2
+	6. Go to Search Directories
+	6. __On Compiler__
+		6. Add
+			6. Search for the _i686-w64-mingw32/include/_ folder and click on OK
+	6. __On Linker__
+		6. Add
+			6. Search for the _i686-w64-mingw32/lib/_ folder and click on OK
+7. Now that everything have been done, you can successfully include the SDL.h to your projects by using the following line code :
+```c
+#include <SDL2/SDL.h>
+//or
+#include "../SDL2/SDL.h"
+//According to where your SDL.h is
+```
+		
 
 ## Q.5
 ### What are the differences between SDL 1 and SDL 2 ? (5 pts)
@@ -52,7 +90,7 @@ __LAPTOP REQUIRED FOR THIS QUESTION__
 #### What are these initializion steps to use SDL 2 library ? Give the code and explain each instructions with precision. (15 pts)
 ```c
 //First, we have to include SDL2 library as following :
-#include <SDL2/SDL.h> 	//Replace the given path by your SDL location.
+#include "SDL2/SDL.h"	//Replace the given path by your SDL location.
 			//Exemple: If your SDL2 folder is located 2 folder before your projects, it should looks like this :
 			//#include <../../SDL2/SDL.h> => the ../ redirect to the parent folder.
 
@@ -82,7 +120,7 @@ int main(int arc, char *argv[]) //We obviously need the main in our program.
 __/!\ For this question, I decided to give the whole code of creating a window, destroying it and managing errors at the same time.
 I also used SDL_Delay method that will be explained later in the document. /!\__
 ```c
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -96,7 +134,8 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	
-	window = SDL_CreateWindow("A SDL Window"); // window creation
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+	// resizable 1280x720 centered window creation
 	
 	if(window == NULL) //errors management
 	{
@@ -144,7 +183,7 @@ int main(int argc, char *argv[])
 	* Code and Explanation :
 
 ```c
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -219,26 +258,44 @@ int main(int argc, char *argv[])
 #### Give and explain the code of SDL_Point and SDL_Rect
 _SDL_Point_ :
 ```c
-typedef struct{
-	int x;
-	int y;
-}SDL_Point
+#include "../SDL2/SDL.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-//Here, we are going to create a table that have 10 points.
-SDL_Point points[9]
-for(int i = 0; i<=9; i++)
+int main(int argc, char *argv[])
 {
-	points[i].x = i+10;
-	points[i].y = SDL_WINDOWPOS_CENTERED;
-	//This for loop will initialize the x and y position of the points in our table named points.
+	//To test the renderer, we will want to display something in our window.
+	//First, Select a color by using the following function :
+	SDL_SetRenderDrawColor(renderer, 255,0,255,255);
+			//PARAMETERS: renderer, red, green, blue, alpha (0>255)
+
+    //Here, we are going to create a table that have 10 points.
+    SDL_Point points[500];
+    for(int i = 0; i<499; i++)
+    {
+        points[i].x = i+4;
+        points[i].y = 500;
+        //This for loop will initialize the x and y position of the points in our table named points.
+    }
+
+	//Then clear the window by using SDL_RenderClear function
+	//SDL_RenderClear(renderer); We make this as commentary so it will display a purple line.
+
+    //We can also draw a line using SDL_RenderDrawLine function, this way :
+    //	SDL_RenderDrawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
+    //EX:	SDL_RenderDrawLine(renderer, 100, 100, 300, 300);
+    SDL_RenderDrawPoints(renderer, points, 500); //Initialize and create the points on the screen
+
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_RenderPresent(renderer);
+
+	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
+
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
 }
-
-//We can also draw a line using SDL_RenderDrawLine function, this way :
-//	SDL_RenderDrawLine(SDL_Renderer* renderer, int x1, int y1, int x2, int y2);
-//EX:	SDL_RenderDrawLine(renderer, 100, 100, 300, 300);
-
-SDL_RenderDrawPoints(renderer, points, 9); //Initialize and create the points on the screen
-SDL_RenderPresent(renderer);
 ```
 _SDL_Rect_ :
 ```c
@@ -262,7 +319,7 @@ SDL_Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 ## Q.12
 ### Give the code to display a red background. (? pts)
 ```c
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -317,7 +374,53 @@ int main(int argc, char *argv[])
 ## Q.13
 ### Draw in the renderer : (? pts)
 #### Give the functions and their appropriated code to draw the shape renderer shown below (cf. PDF screenshot).
+```c
+#include <math.h>
 
+int main(int argc, char* argv[])
+{
+	DrawCircle(renderer, 150, 300, 150); //Empty circle
+    	DrawFilledCircle(renderer, 500, 300, 150); //Filled Circle
+}
+void DrawCircle(SDL_Renderer *p_renderer, int origin_x, int origin_y, int radius, SDL_Color color)
+{
+    int new_x = 0;
+    int new_y = 0;
+    int old_x =  origin_x + radius;
+    int old_y = origin_y;
+    float step = (M_PI * 2) / 50;
+
+    SDL_SetRenderDrawColor(p_renderer, color.r, color.g, color.b, 255);
+
+    for(float theta = 0; theta <= (M_PI * 2); theta += step){
+        new_x = origin_x + (radius * cos(theta));
+        new_y = origin_y - (radius * sin(theta));
+
+        SDL_RenderDrawLine(p_renderer, old_x, old_y, new_x, new_y);
+
+        old_x = new_x;
+        old_y = new_y;
+    }
+
+    new_x = origin_x + radius;
+    new_y = origin_y;
+    SDL_RenderDrawLine(p_renderer, old_x, old_y, new_x, new_y);
+
+}
+// Dessine le cercle donné, rempli
+void DrawFilledCircle(SDL_Renderer *p_renderer, int origin_x, int origin_y, int radius, SDL_Color color)
+{
+    for(double dy = 1; dy <= radius; dy += 1.0){
+
+        double dx = floor(sqrt((2.0 * radius * dy) - (dy * dy)));
+
+        SDL_SetRenderDrawColor(p_renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderDrawLine(p_renderer, origin_x - dx, origin_y + dy - radius, origin_x + dx, origin_y + dy - radius);
+        SDL_RenderDrawLine(p_renderer, origin_x - dx, origin_y - dy + radius, origin_x + dx, origin_y - dy + radius);
+
+    }
+}
+```
 
 ## Q.14
 ### What are the functions to draw dots and lines ?(10 pts)
@@ -340,27 +443,46 @@ SDL_Delay makes the program waiting a specified number of milliseconds before re
 
 ## Q.17
 ### What is a surface in SDL 2 ? (5 pts)
-
+A surface is a structure that contains a collection of pixels used in software blitting.
 
 ## Q.18
 ### Give the code to create a surface. (10 pts)
+```c
+SDL_Surface* surface;
 
+surface = SDL_CreateRGBSurface (0, 100, 100, 32, 0, 0, 0, 0);
+
+if(surface == NULL)
+{
+    printf("Error creating a surface : %s", SDL_GetError());
+    return EXIT_FAILURE;
+}
+```
 
 ## Q.19
 ### Draw in a surface: (10 pts)
 #### Give the function code of SDL_FillRect
-
+```c
+int SDL_FillRect(SDL_Surface* dst, const SDL_Rect* rect, Uint32 color)
+```
 
 ## Q.20
 ### SDL_BlitSurface(..) : (5 pts)
 #### Give the code to test this method
-
+```c
+int SDL_BlitSurface(SDL_Surface* src, const SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
+```
 
 ## Q.21
 ### Textures : (10 pts)
 ### What is a texture ?
 #### Give the code allowing to create a texture
+A texture is a structure that contains an efficient, driver-specific representation of pixel data.
+```c
+SDL_Texture *texture;
 
+texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1024, 768);
+```
 
 ## Q.22
 ### Draw in a texture : SDL_RenderTarget (10 pts)
@@ -371,11 +493,19 @@ SDL_Delay makes the program waiting a specified number of milliseconds before re
 ### SDL_RenderCopy : (10 pts)
 #### What is the point of this method ?
 #### Give the code to test this method
+SDL_RenderCopy is a function which copy a portion of a texture to the current rendering.
+```c
+int SDL_RenderCopy(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_Rect* srcrect, const SDL_Rect* dstrect);
+```
 
 ## Q.24
 ### SDL_QueryTexture : (10 pts)
 #### What is the point of this method ?
 #### Give the code to test this method
+SDL_QueryTexture is a function which query the attributes of a texture.
+```c
+int SDL_QueryTexture(SDL_Texture* texture, Uint32* format, int* access, int* w, int* h);
+```
 
 ## Q.25
 ### Images : (10 pts)
@@ -394,7 +524,12 @@ SDL_Delay makes the program waiting a specified number of milliseconds before re
 ## Q.28
 ### Since the beginning, we are creating instances allowing use to manipulate SDL 2. However, we forgot an important step in its usage : **Instance Destructions**. (15 pts)
 #### Make a statements of the previous created instances and identify the methodes you have to use to destroy them.
-
+```c
+SDL_DestroySurface(surface);
+SDL_DestroyTexture(texture);
+SDL_DestroyRenderer(renderer);
+SDL_DestroyWindow(window);
+```
 
 ## Q.29
 ```c

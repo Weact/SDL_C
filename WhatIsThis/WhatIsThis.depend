@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1581347854 source:c:\ludus academie\sdl\whatisthis\main.c
+1583095657 source:c:\ludus academie\sdl\whatisthis\main.c
+	"../SDL2/SDL.h"
 	<stdio.h>
 	<stdlib.h>
-	"../SDL2/SDL.h"
 
 1564029277 c:\ludus academie\sdl\sdl2\sdl.h
 	"SDL_main.h"
