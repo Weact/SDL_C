@@ -1,5 +1,5 @@
 # SDL_C
-GITHUB Repository for every future projects in SDL C / C++. 
+GITHUB Repository for every future projects in SDL C / C++
 
 # WHAT_IS_THIS - Started on Monday 10 February 2020.
 ### Supervisor : LEHMANN Nicolas (https://github.com/nglconsulting)
