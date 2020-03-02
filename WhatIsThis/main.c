@@ -33,7 +33,9 @@ int main(int argc, char *argv[])
 	}
 
 	//Red color
-	SDL_SetRenderDrawColor(renderer, 255,0,0,255);
+   	SDL_SetRenderDrawColor(renderer, 100,255,0,255);
+
+    SDL_RenderClear(renderer);
 
     s = SDL_CreateRGBSurface(0, 200, 200, 32, 0, 0, 0, 0);
     SDL_FillRect(s, NULL, SDL_MapRGB(s->format, 255, 0, 0));
