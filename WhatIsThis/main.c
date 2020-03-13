@@ -7,7 +7,11 @@ int main(int argc, char *argv[])
 {
 	SDL_Window* window; //Window declaration
 	SDL_Renderer* renderer; //Renderer declaration
-    SDL_Surface *s;
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,200,100);
+
+    SDL_Rect rect = {100,100,100,100};
+    SDL_Rect rect2 = {300, 300, 600, 600};
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
 	{
@@ -33,15 +37,25 @@ int main(int argc, char *argv[])
 	}
 
 	//Red color
-   	SDL_SetRenderDrawColor(renderer, 100,255,0,255);
+   	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+   	SDL_RenderClear(renderer);
+    SDL_SetRenderTarget(renderer, texture);
+    SDL_RenderDrawLine(renderer, 0, 0, 250, 25);
+    SDL_SetRenderTarget(renderer, NULL);
 
-    SDL_RenderClear(renderer);
+    SDL_Rect t_Position;
+    t_Position.x = 100;
+    t_Position.y = 200;
+    SDL_QueryTexture(texture, NULL, NULL, &t_Position.w, &t_Position.h);
+    SDL_RenderCopy(renderer, texture, NULL, &t_Position);
 
-    s = SDL_CreateRGBSurface(0, 200, 200, 32, 0, 0, 0, 0);
-    SDL_FillRect(s, NULL, SDL_MapRGB(s->format, 255, 0, 0));
-
+    SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+    SDL_RenderDrawRect(renderer, &rect);
+    SDL_FillRect(surface, &rect, SDL_MapRGB(surface->format, 255, 0, 0));
+    SDL_RenderFillRect(renderer, &rect2);
 	DrawCircle(renderer, 150, 300, 150);
     DrawFilledCircle(renderer, 500, 300, 150);
+
 	//We have now to display our render using SDL_RenderPresent function
 	SDL_RenderPresent(renderer);
 
