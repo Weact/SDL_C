@@ -495,7 +495,63 @@ int SDL_FillRect(SDL_Surface* dst, const SDL_Rect* rect, Uint32 color)
 ### SDL_BlitSurface(..) : (5 pts)
 #### Give the code to test this method
 ```c
-int SDL_BlitSurface(SDL_Surface* src, const SDL_Rect* srcrect, SDL_Surface* dst, SDL_Rect* dstrect)
+int main(int argc, char *argv[])
+{
+	SDL_Window* window; //Window declaration
+	SDL_Renderer* renderer; //Renderer declaration
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,200,100); //Create basic texture
+
+    SDL_Rect rect = {100,100,100,100}; //Create rect x100 y100 w100 h100
+    SDL_Rect rect2 = {300, 300, 600, 600}; //Create rect x300 y300 w600 h600
+
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
+	{
+		printf("Error initializing SDL : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE); //Create window
+
+	if(window == NULL) //errors management
+	{
+		printf("Error creating the window : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+
+	//RENDERER CREATION
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	if(renderer == NULL) //errors management
+	{
+		printf("Error creating the renderer : %s", SDL_GetError());
+		return EXIT_FAILURE;
+	}
+    
+    //Create two surface: source and destination
+    SDL_Surface* src_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0, 0);
+    SDL_Surface* dst_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0,0);
+	//Red color
+   	//SDL_SetRenderDrawColor(renderer, 255,0,0,255); //Set background to white
+
+   	SDL_FillRect(src_surface, &rect, SDL_MapRGB(src_surface->format, 255, 0, 255)); //Fill a rectangle on a surface
+   	SDL_BlitSurface(src_surface, NULL, dst_surface, NULL);
+    SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, dst_surface);
+   	SDL_RenderClear(renderer); //Clear the renderer
+
+	//We have now to display our render using SDL_RenderPresent function
+	SDL_SetRenderTarget(renderer, text_surface);
+	SDL_RenderCopy(renderer, text_surface, NULL, NULL);
+	SDL_RenderPresent(renderer);
+
+	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
+
+	SDL_DestroyRenderer(renderer); //Destroy the renderer
+	SDL_DestroyWindow(window); //Destroy the window
+	SDL_Quit();
+	return 0;
+
+	//This will display a red window, wait 3s and close.
+}
 ```
 
 ## Q.21
@@ -512,7 +568,10 @@ texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCES
 ## Q.22
 ### Draw in a texture : SDL_RenderTarget (10 pts)
 #### Give the code to test this method
-
+```c
+SDL_SetRenderTarget(renderer, text_surface);
+//Please, refer to Question 20 (RenderTarget used with BlitSurface)
+```
 
 ## Q.23
 ### SDL_RenderCopy : (10 pts)
@@ -529,7 +588,27 @@ int SDL_RenderCopy(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_Rect*
 #### Give the code to test this method
 SDL_QueryTexture is a function which query the attributes of a texture.
 ```c
-int SDL_QueryTexture(SDL_Texture* texture, Uint32* format, int* access, int* w, int* h);
+//int SDL_QueryTexture(SDL_Texture* texture, Uint32* format, int* access, int* w, int* h);
+    SDL_Surface* src_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0, 0);
+    SDL_Surface* dst_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0,0);
+	//Red color
+   	//SDL_SetRenderDrawColor(renderer, 255,0,0,255); //Set background to white
+
+   	SDL_FillRect(src_surface, &rect, SDL_MapRGB(src_surface->format, 255, 0, 255)); //Fill a rectangle on a surface
+   	SDL_BlitSurface(src_surface, NULL, dst_surface, NULL);
+    SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, dst_surface);
+   	SDL_RenderClear(renderer); //Clear the renderer
+
+    int format = 0;
+    int access = 0;
+    int width = 0;
+    int height = 0;
+
+    if(SDL_QueryTexture(text_surface, &format, &access, &width, &height) != 0){
+        return EXIT_FAILURE;
+    }else{
+        printf("Texture Width: %d / Texture Height: %d", width, height);
+    }
 ```
 
 ## Q.25
@@ -537,14 +616,31 @@ int SDL_QueryTexture(SDL_Texture* texture, Uint32* format, int* access, int* w, 
 #### SDL 2 only natively take bmp format, if you wish to use other format, you have to associate the corresponding library SDL2_image to your project.
 #### SDL_LoadBMP is the method allowing to use bmp.
 #### Give the code allowing to test this function
+```c
+const char* godotimage = "Vierbit4.bmp";
+SDL_Surface* src_surface = SDL_LoadBMP(godotimage);
+
+```
 
 ## Q.26
 ### Give the code allowing to create an image from a bmp image (10 pts)
+```c
+const char* godotimage = "Vierbit4.bmp";
+SDL_Surface* src_surface = SDL_LoadBMP(godotimage);
 
+if(src_surface == NULL){
+	printf("Image non reconnu");
+}
+SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, src_surface);
+```
 
 ## Q.27
 ### Take an image of your choice in bmp format and test the previous functions with the code allowing to display the image in the Renderer. (15 pts)
-
+```c
+SDL_SetRenderTarget(renderer, text_surface);
+SDL_RenderCopy(renderer, text_surface, NULL, NULL);
+SDL_RenderPresent(renderer);
+```
 
 ## Q.28
 ### Since the beginning, we are creating instances allowing use to manipulate SDL 2. However, we forgot an important step in its usage : **Instance Destructions**. (15 pts)
@@ -558,14 +654,13 @@ SDL_DestroyWindow(window);
 
 ## Q.29
 ```c
-
 typedef struct sdl_manager{
 	SDL_Window *pWindow;
 	SDL_Renderer *pRenderer;
 	SDL_Texture *pTexture;
 	SDL_Surface *pSurface;
 }
+```
 
-````
 You have coded your program, functions and procedures so that you can test more precisely all methods. With the aid of the structured type written above, I ask you to improve your program and to make a more structured program with modular programmation and patterns (MVC) than the previous version
 # 30 POINTS
