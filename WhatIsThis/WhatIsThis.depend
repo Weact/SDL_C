@@ -352,11 +352,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1584116635 source:h:\sdl_c\whatisthis\main.c
+1584125363 source:h:\sdl_c\whatisthis\main.c
 	"../SDL2/SDL.h"
 	<stdio.h>
 	<stdlib.h>
-	<math.h>
+	"sdl_manager.h"
 
 1583890677 h:\sdl_c\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -711,4 +711,23 @@
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
+
+1584125290 source:h:\sdl_c\whatisthis\sdl_manager.c
+	"../SDL2/SDL.h"
+	<stdio.h>
+	<stdlib.h>
+	"sdl_manager.h"
+
+1584118999 source:h:\sdl_c\whatisthis\circle.c
+	"../SDL2/SDL.h"
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1584121342 source:h:\sdl_c\whatisthis\bmp_image.c
+	"../SDL2/SDL.h"
+	<stdio.h>
+	<stdlib.h>
+
+1584124906 h:\sdl_c\whatisthis\sdl_manager.h
 

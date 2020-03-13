@@ -36,9 +36,19 @@
 			<Add option="-lmingw32 -lSDL2main -lSDL2" />
 			<Add directory="../lib" />
 		</Linker>
+		<Unit filename="bmp_image.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="circle.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="sdl_manager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sdl_manager.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
