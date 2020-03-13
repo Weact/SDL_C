@@ -2,16 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-//Want to merge, pls..
+
 int main(int argc, char *argv[])
 {
 	SDL_Window* window; //Window declaration
 	SDL_Renderer* renderer; //Renderer declaration
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, 100, 100, 32, 0, 0, 0, 0);
-    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,200,100);
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,200,100); //Create basic texture
 
-    SDL_Rect rect = {100,100,100,100};
-    SDL_Rect rect2 = {300, 300, 600, 600};
+    SDL_Rect rect = {100,100,100,100}; //Create rect x100 y100 w100 h100
+    SDL_Rect rect2 = {300, 300, 600, 600}; //Create rect x300 y300 w600 h600
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
 	{
@@ -19,7 +18,7 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("A SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE); //Create window
 
 	if(window == NULL) //errors management
 	{
@@ -36,27 +35,38 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
+
+
+    //Create two surface: source and destination
+    SDL_Surface* f = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0, 0);
+    SDL_Surface* dst_surface = SDL_CreateRGBSurface(0, 1280, 720, 32, 0, 0, 0,0);
+    const char* godotimage = "Vierbit4.bmp";
+    SDL_Surface* src_surface = SDL_LoadBMP(godotimage);
+    if(src_surface == NULL){
+        printf("Image non reconnu");
+    }
 	//Red color
-   	SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-   	SDL_RenderClear(renderer);
-    SDL_SetRenderTarget(renderer, texture);
-    SDL_RenderDrawLine(renderer, 0, 0, 250, 25);
-    SDL_SetRenderTarget(renderer, NULL);
+   	//SDL_SetRenderDrawColor(renderer, 255,0,0,255); //Set background to white
 
-    SDL_Rect t_Position;
-    t_Position.x = 100;
-    t_Position.y = 200;
-    SDL_QueryTexture(texture, NULL, NULL, &t_Position.w, &t_Position.h);
-    SDL_RenderCopy(renderer, texture, NULL, &t_Position);
+   	//SDL_FillRect(src_surface, &rect, SDL_MapRGB(src_surface->format, 255, 0, 255)); //Fill a rectangle on a surface
+   	SDL_BlitSurface(src_surface, NULL, dst_surface, NULL);
+    SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, src_surface);
+   	//SDL_RenderClear(renderer); //Clear the renderer
 
-    SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
-    SDL_RenderDrawRect(renderer, &rect);
-    SDL_FillRect(surface, &rect, SDL_MapRGB(surface->format, 255, 0, 0));
-    SDL_RenderFillRect(renderer, &rect2);
-	DrawCircle(renderer, 150, 300, 150);
-    DrawFilledCircle(renderer, 500, 300, 150);
+    int format = 0;
+    int access = 0;
+    int width = 0;
+    int height = 0;
+
+    if(SDL_QueryTexture(text_surface, &format, &access, &width, &height) != 0){
+        return EXIT_FAILURE;
+    }else{
+        printf("Texture Width: %d / Texture Height: %d", width, height);
+    }
 
 	//We have now to display our render using SDL_RenderPresent function
+	SDL_SetRenderTarget(renderer, text_surface);
+	SDL_RenderCopy(renderer, text_surface, NULL, NULL);
 	SDL_RenderPresent(renderer);
 
 	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
