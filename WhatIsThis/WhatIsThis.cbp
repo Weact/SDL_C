@@ -39,9 +39,16 @@
 		<Unit filename="bmp_image.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="bmp_image.h" />
+		<Unit filename="carre.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="carre.h" />
 		<Unit filename="circle.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="circle.h" />
+		<Unit filename="color_list.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

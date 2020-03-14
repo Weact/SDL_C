@@ -1,7 +1,4 @@
-#include "../SDL2/SDL.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include "circle.h"
 
 // Dessine le cercle donné
 void DrawCircle(SDL_Renderer *p_renderer, int origin_x, int origin_y, int radius, SDL_Color color)
@@ -27,6 +24,7 @@ void DrawCircle(SDL_Renderer *p_renderer, int origin_x, int origin_y, int radius
     new_x = origin_x + radius;
     new_y = origin_y;
     SDL_RenderDrawLine(p_renderer, old_x, old_y, new_x, new_y);
+    SDL_SetRenderDrawColor(p_renderer, 0, 0, 0, 0);
 
 }
 // Dessine le cercle donné, rempli
@@ -41,4 +39,5 @@ void DrawFilledCircle(SDL_Renderer *p_renderer, int origin_x, int origin_y, int 
         SDL_RenderDrawLine(p_renderer, origin_x - dx, origin_y - dy + radius, origin_x + dx, origin_y - dy + radius);
 
     }
+    SDL_SetRenderDrawColor(p_renderer, 0, 0, 0, 0);
 }

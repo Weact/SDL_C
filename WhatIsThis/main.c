@@ -2,40 +2,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sdl_manager.h"
+#include "carre.h"
+#include "circle.h"
+#include "color_list.h"
 
 int main(int argc, char *argv[])
 {
-    sdl_manager* Manage;
-    sdl_manager_INIT(Manage->pWindow, Manage->pRenderer, Manage->p_RGB_Surface, Manage->p_BMP_Surface, "Vierbit4.bmp", Manage->pTexture);
+    if(SDL_Init(SDL_INIT_VIDEO) != EXIT_SUCCESS)
+    {
+        printf("Erreur d'initialisation de la SDL : %s", SDL_GetError());
+        return EXIT_FAILURE;
+    }else
+    {
+        //IF SDL SUCCESS
+        sdl_manager manager;
+        sdl_manager* p_sdl_manager = &manager;
+        SDL_Manager_INIT(p_sdl_manager);
 
-    SDL_Rect rect = {100,100,100,100}; //Create rect x100 y100 w100 h100
-    SDL_Rect rect2 = {300, 300, 600, 600}; //Create rect x300 y300 w600 h600
+        //Display BMP image
+        bmp_surface(p_sdl_manager->pRenderer, p_sdl_manager->pSurface, p_sdl_manager->pTexture, 0, 0, 1280, 720, "Vierbit4.bmp");
 
-	if(SDL_Init(SDL_INIT_VIDEO) < 0) // SDL init
-	{
-		printf("Error initializing SDL : %s", SDL_GetError());
-		return EXIT_FAILURE;
-	}
+        SDL_Rect rect = {500,300,50,50}; //Create rect x100 y100 w100 h100
+        SDL_Rect rect2 = {700, 300, 100, 100}; //Create rect x300 y300 w600 h600
 
-	//bmp_surface(pRenderer); Display the BMP image fonction
+        DrawFilledCircle(p_sdl_manager->pRenderer, 100, 300, 50, rouge); //Display Filled Circle
+        DrawCircle(p_sdl_manager->pRenderer, 300, 300, 100, bleu); //Display Empty Circle
 
-    //DrawFilledCircle(pRenderer, 200, 200, 30, SDL_MapRGB(base_surface->format, 255, 0, 0)); //Display Filled Circle
-    //DrawCircle(pRenderer, 300, 300, 60, SDL_MapRGB(base_surface->format, 0, 255, 255)); //Display Empty Circle
+        DrawFilledSquare(p_sdl_manager->pRenderer, p_sdl_manager->pSurface, &rect, 0, 255, 0, 0);
+        DrawEmptySquare(p_sdl_manager->pRenderer, &rect2, 255, 0, 255, 0);
 
-    SDL_RenderDrawRect(Manage->pRenderer, &rect);
-    SDL_FillRect(Manage->p_RGB_Surface, &rect, SDL_MapRGB(Manage->p_RGB_Surface->format, 0, 255, 0));
-    SDL_RenderFillRect(Manage->pRenderer, &rect);
-	SDL_RenderPresent(Manage->pRenderer);
+        SDL_RenderPresent(p_sdl_manager->pRenderer);
 
-	SDL_Delay(3000); //3s break, so the window opens and doesn't close instantly. This method will be explained later.
+        SDL_Delay(2000);
 
-    SDL_DestroyTexture(Manage->pTexture);
-	SDL_DestroyRenderer(Manage->pRenderer); //Destroy the pRenderer
-	SDL_DestroyWindow(Manage->pWindow); //Destroy the window
+        SDL_Manager_FREE(p_sdl_manager);
+    }
+
 	SDL_Quit();
 	return 0;
-
-	//This will display a red window, wait 3s and close.
 }
 
 

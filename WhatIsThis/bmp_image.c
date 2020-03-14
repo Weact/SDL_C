@@ -1,29 +1,22 @@
-#include "../SDL2/SDL.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "bmp_image.h"
 
-SDL_Surface* bmp_surface(SDL_Renderer* renderer)
+int bmp_surface(SDL_Renderer* renderer, SDL_Surface* surface, SDL_Texture* texture, int format, int access, int width, int height, const char* bmp_path)
 {
-    const char* godotimage = "Vierbit4.bmp";
-    SDL_Surface* pSurface = SDL_LoadBMP(godotimage);
-    if(pSurface == NULL){
+    surface = SDL_LoadBMP(bmp_path);
+    if(surface == NULL){
         printf("Image non reconnu");
     }
 
-    SDL_Texture* text_surface = SDL_CreateTextureFromSurface(renderer, pSurface);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
 
-    int format = 0;
-    int access = 0;
-    int width = 0;
-    int height = 0;
-
-    if(SDL_QueryTexture(text_surface, &format, &access, &width, &height) != 0){
+    if(SDL_QueryTexture(texture, &format, &access, &width, &height) != 0){
         printf("Erreur");
+        return EXIT_FAILURE;
     }else{
         printf("Texture Width: %d / Texture Height: %d", width, height);
     }
 
     //We have now to display our render using SDL_RenderPresent function
-	SDL_SetRenderTarget(renderer, text_surface);
-	SDL_RenderCopy(renderer, text_surface, NULL, NULL);
+	SDL_SetRenderTarget(renderer, texture);
+	SDL_RenderCopy(renderer, texture, NULL, NULL);
 }
