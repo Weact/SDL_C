@@ -664,3 +664,6 @@ typedef struct sdl_manager{
 
 You have coded your program, functions and procedures so that you can test more precisely all methods. With the aid of the structured type written above, I ask you to improve your program and to make a more structured program with modular programmation and patterns (MVC) than the previous version
 # 30 POINTS
+
+
+#cf. branch Q30/prog_modulare or pull current master
