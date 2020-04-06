@@ -9,6 +9,7 @@
 
 //void afficherTileSet(SDL_manager * p_manager, char** Map)
 
-void takeTileAtIndex(sdl_manager * p_manager, char* tileset_path, int index, SDL_Rect * p_dstrect);
+void takeTileAtIndex(sdl_manager * p_manager, SDL_Surface * p_tileset_surface, SDL_Rect src_rect ,SDL_Rect * p_dstrect)
+SDL_Surface * setTileset(const char * tileset_path);
 
 #endif // TILESET_H_INCLUDED

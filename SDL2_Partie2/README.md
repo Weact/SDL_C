@@ -170,7 +170,7 @@ SDL_Surface* img_surface(sdl_manager* p_manager, const char* img_path);
 10 points.
 
 Un tileset est une collection d'image contenu dans un même fichier servant à les dessiner sur l'écran "dynamiquement", en les découpant de taille égal.
-Cela peut servir à la création d'un niveau par exemple, à l'animation de personanges, d'objets, etc...
+Cela peut servir à la création d'un niveau par exemple, à l'animation de personnages, d'objets, etc...
 
 ## Q.5
 5) A partir de ces sites : https://itch.io/game-assets/free/tag-tileset , https://opengameart.org/content/orthographic-outdoor-tiles ou du site de votre choix, proposant des tilesets d’images libres de droit, créez une image animée dans votre fenêtre.(Vous simulez les changements d’animation à chaque frame).
