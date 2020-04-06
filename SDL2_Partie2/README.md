@@ -175,3 +175,5 @@ Cela peut servir à la création d'un niveau par exemple, à l'animation de pers
 ## Q.5
 5) A partir de ces sites : https://itch.io/game-assets/free/tag-tileset , https://opengameart.org/content/orthographic-outdoor-tiles ou du site de votre choix, proposant des tilesets d’images libres de droit, créez une image animée dans votre fenêtre.(Vous simulez les changements d’animation à chaque frame).
 15 points
+
+Voir branche Master ou branche SDL/Partie2/Q4-Q5
