@@ -47,13 +47,13 @@ int main(int argc, char * argv[])
         return EXIT_FAILURE;
     }
 
-    sdl_manager * p_myManager = SDL_Manager_INIT();
+    sdl_manager * p_myManager = SDL_Manager_INIT(); //Initialisation du SDL_Manager, donc de la fenêtre, du renderer, texture et surface
 
-    img_surface(p_myManager, "sdllogo.png");
+    img_surface(p_myManager, "sdllogo.png"); //Chargement de l'image .png et conversion en .bmp pour l'affichage
 
-    SDL_ManagerRend(p_myManager);
-    SDL_Delay(2500);
-    SDL_Manager_FREE(p_myManager);
+    SDL_ManagerRend(p_myManager); //Fonction de rendu complet
+    SDL_Delay(2500); // Attente 2.5s
+    SDL_Manager_FREE(p_myManager); //Détruit tout
     return 0;
 }
 ```
@@ -137,9 +137,11 @@ void SDL_ManagerRend(sdl_manager* p_manager);
 ```c
 #include "api_image.h"
 #include "sdl_manager.h"
+
+//Cette fonction est celle qui nous intéresse pour charger une image en se servant de l'api SDL2_image
 SDL_Surface* img_surface(sdl_manager* p_manager, const char* img_path)
 {
-
+    //On se sert de IMG_Load() afin de charger l'image .png/.jpg/[...] afin de l'afficher avec un rendu plus tard
     p_manager->pSurface = IMG_Load(img_path);
     if(p_manager->pSurface == NULL){
         printf("Image non reconnu");
