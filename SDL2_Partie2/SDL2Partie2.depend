@@ -368,7 +368,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1586171424 source:h:\sdl_c\sdl2_partie2\main.c
+1586174822 source:h:\sdl_c\sdl2_partie2\main.c
 	<stdio.h>
 	<stdlib.h>
 	"../SDL2/SDL.h"
@@ -384,14 +384,18 @@
 	<stdio.h>
 	<stdlib.h>
 
-1586170506 source:h:\sdl_c\sdl2_partie2\api_image.c
+1586171852 source:h:\sdl_c\sdl2_partie2\api_image.c
 	"api_image.h"
 	"sdl_manager.h"
 
-1586170754 h:\sdl_c\sdl2_partie2\api_image.h
+1586171415 h:\sdl_c\sdl2_partie2\api_image.h
 	"../SDL2/SDL.h"
 	"../SDL2/SDL_image.h"
 	"sdl_manager.h"
 	<stdio.h>
 	<stdlib.h>
+
+1586174896 source:h:\sdl_c\sdl2_partie2\tileset.c
+	"api_image.h"
+	"sdl_manager.h"
 

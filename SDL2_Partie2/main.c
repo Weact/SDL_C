@@ -14,8 +14,10 @@ int main(int argc, char * argv[])
     }
 
     sdl_manager * p_myManager = SDL_Manager_INIT();
+    SDL_Rect * p_dsttile = {100, 100, 100, 100};
 
-    img_surface(p_myManager, "sdllogo.png");
+    //img_surface(p_myManager, "sdllogo.png");
+    takeTileAtIndex(p_myManager, "tileset.png", 0, p_dsttile);
 
     SDL_ManagerRend(p_myManager);
     SDL_Delay(2500);
