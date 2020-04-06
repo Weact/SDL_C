@@ -33,13 +33,13 @@
 			<Add directory="../include/SDL2" />
 		</Compiler>
 		<Linker>
-			<Add option="-lmingw32 -lSDL2main -lSDL2" />
+			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image" />
 			<Add directory="../lib" />
 		</Linker>
-		<Unit filename="bmp_image.c">
+		<Unit filename="api_image.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="bmp_image.h" />
+		<Unit filename="api_image.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -47,6 +47,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="sdl_manager.h" />
+		<Unit filename="tileset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="tileset.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
