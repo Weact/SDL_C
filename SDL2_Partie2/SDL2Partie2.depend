@@ -362,7 +362,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1561873968 h:\sdl_c\include\sdl2\sdl_image.h
+1587224798 h:\sdl_c\include\sdl2\sdl_image.h
 	"SDL.h"
 	"SDL_version.h"
 	"begin_code.h"
@@ -375,27 +375,27 @@
 	"../SDL2/SDL_image.h"
 	"sdl_manager.h"
 
-1586171123 source:h:\sdl_c\sdl2_partie2\sdl_manager.c
+1587224798 source:h:\sdl_c\sdl2_partie2\sdl_manager.c
 	"sdl_manager.h"
 
-1586171045 h:\sdl_c\sdl2_partie2\sdl_manager.h
+1587224798 h:\sdl_c\sdl2_partie2\sdl_manager.h
 	"../SDL2/SDL.h"
 	"../SDL2/SDL_image.h"
 	<stdio.h>
 	<stdlib.h>
 
-1586171852 source:h:\sdl_c\sdl2_partie2\api_image.c
+1587224798 source:h:\sdl_c\sdl2_partie2\api_image.c
 	"api_image.h"
 	"sdl_manager.h"
 
-1586171415 h:\sdl_c\sdl2_partie2\api_image.h
+1587224798 h:\sdl_c\sdl2_partie2\api_image.h
 	"../SDL2/SDL.h"
 	"../SDL2/SDL_image.h"
 	"sdl_manager.h"
 	<stdio.h>
 	<stdlib.h>
 
-1586187506 source:h:\sdl_c\sdl2_partie2\tileset.c
+1587224798 source:h:\sdl_c\sdl2_partie2\tileset.c
 	"api_image.h"
 	"sdl_manager.h"
 
