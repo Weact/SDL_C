@@ -177,3 +177,15 @@ Cela peut servir à la création d'un niveau par exemple, à l'animation de pers
 15 points
 
 Voir branche Master ou branche SDL/Partie2/Q4-Q5
+
+## Q.6
+6) Le TileMapping est une technique qui consiste à utiliser un tileset pour placer les éléments de la map dans une grille. C'est-à-dire, par exemple dans les anciens jeux, les éléments seront alignés et placés selont une grille. Ainsi, chaques éléments du Tileset se suivent et se complètent.
+Il est préféréable d'utiliser la technique du TileMapping au lieu de l'image fixe car l'image fixe est plus ou moins coûteux en mémoire selon l'image que l'on veut importer. En soit, cette technique c'est pas, ou très peu utilisable.
+Pour les maps de jeu, nous procéderons à la création d'un Tileset pour placer ses éléments 1 à 1 et créer un niveau. En général, cela consiste presque à "dessiner" notre niveau.
+
+## Q.7
+7) Tiled Map Editor est une logiciel disponible sur itch.io / github  (https://www.mapeditor.org/), pour éditer les niveaux en important nos propres Tilesets.
+Export disponible : JSON, LUA, CSV, GameMaker: Studio 1.4, and more .. (cf https://doc.mapeditor.org/en/stable/manual/export/)
+
+## Q.8
+8)

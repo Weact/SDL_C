@@ -4,8 +4,8 @@ sdl_manager * SDL_Manager_INIT()
 {
     int format = 0;
     int access = 0;
-    int width = 1280;
-    int height = 720;
+    int width = 1024;
+    int height = 512;
     int depth = 32;
     char* bmp_path = "Vierbit4.bmp";
 

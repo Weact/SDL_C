@@ -4,6 +4,11 @@
 #include "../SDL2/SDL_image.h"
 #include "sdl_manager.h"
 
+#define MAP_WIDTH 64
+#define MAP_HEIGHT 32
+#define TILE_WIDTH 16
+#define TILE_HEIGHT 16
+
 int main(int argc, char * argv[])
 {
     int quit = 0;
@@ -18,72 +23,84 @@ int main(int argc, char * argv[])
     //SDL MANAGER
     sdl_manager * p_myManager = SDL_Manager_INIT();
 
-    //INDEX
-    int index_start = 1;
-    int index_end = 6;
-    int current_index = index_start;
+    //MAP
+    const char * t_map[] = {
+        "3513454221551335315252155554311541513152141551551151255523241514",
+        "3513454221551335315252155554311541513152141551551151255523241514",
+        "5445435345115314434525412341324555535254552425533352252233255343",
+        "2135311142232554535235155514225231132113525151451541325313425211",
+        "3112514525545154435123124422525215334413345525355132233512454152",
+        "4541553252515535554524155451212535521115554541115455555451215352",
+        "5345144511245242351223313552532435415555551412341335355532554434",
+        "2445223114253452521115415154415541355544552352443431255253343515",
+        "3142515531555525341314214221555355224145523214121522235525454551",
+        "3125553155253251155553311452142324251455154155145524122541542111",
+        "2242414455225254555541215554554545455253114511543521331535251333",
+        "1515155555451131321532354225441225423215524424455512444133351152",
+        "5215355543344123352513445124553453215553535415433423554535522231",
+        "3252252555554215551224551442545555111533531145454413551532555435",
+        "5134555554325551254142444213335131413235355344153434555314325125",
+        "5355214553515535153455544555454253421254224144443515441515442151",
+        "1322253354141452151415223552425422314334515123225545235252331245",
+        "1555155154514414142245334355214352531215553253354252554211515111",
+        "2531525245142213342124212115515535351115555455533533343423141453",
+        "4222554343521241243253443213515354253525555411554552523221515115",
+        "5245553532512453132544553131535435514135233241223454541143215425",
+        "4255211114524244351131554151215553211251351452121252254535335213",
+        "3233252442511521155123323545133123432555445434221222441435421422",
+        "5335154221522535525155552512311531525134555445412215534523521521",
+        "4423434523431135514545435353544313335124134135531154424522113442",
+        "4441434552555355145254213254315545525245123522215123211355554242",
+        "1335253255554553443552521325454254511555341113151243314133551554",
+        "3343215235531511523224241515432553152444245251555542353112434511",
+        "5551314221315255555145531355535412212321421213552343115131553214",
+        "1225545534545355531334434525152551412355555315132552315454253131",
+        "2123355134313242113115242222251155254535445455534514452311535311",
+        "2245253335455253534133414535221334121242155353343525555245531552",
+        "1431352135312442251524531555221233255252155533145515551124435442"};
+
+
 
     //RECTANGLE SOURCE
     SDL_Rect tile;
-    int width = 16;
-    tile.x = (index_start-1) * width; //Le -1 sert à pouvoir écrire la tile précise que l'on veut. Sans ça, 0 correspondrait a la 1ère, 1 à la 2ème, etc..
-                                // Avec le -1, le 0 correspond à rien, le 1 correspond à la 1ère, etc..
+    tile.x = 0;
     tile.y = 0;
-    tile.w = 16;
-    tile.h = 16;
+    tile.w = TILE_WIDTH;
+    tile.h = TILE_HEIGHT;
 
     //RECTANGLE DESTINATION
     SDL_Rect * p_dsttile;
-    p_dsttile->x = 100;
-    p_dsttile->y = 100;
-
-
-/*
-    img_surface(p_myManager, "sdllogo.png");
-    int index_tile = 6;
-    takeTileAtIndex(p_myManager, "tileset.png", index_tile, p_dsttile);
-
-
-    printf("\nTile selectionnee: %d\n", index_tile);
-    printf("Correspondance:\n");
-    printf("1 : Terre\n");
-    printf("2 : Sable\n");
-    printf("3 : Eau\n");
-    printf("4 : Lave\n");
-    printf("5 : Herbe\n");
-    printf("6 : Pierre\n");
-*/
 
     SDL_Surface * p_myTileset = setTileset("tileset.png"); //function that return a sdl_surface
 
-    while(quit != 1){
-        while(SDL_PollEvent(&e)){
-            if(e.type == SDL_QUIT){ //Si la croix est appuyer, alors on quitte
-                quit = 1;
-                break;
-            }
+    int i = 0;
+    int j = 0;
+    int current_index = 0;
+    int selected_tile = 0;
+
+    for(i = 0; i<MAP_WIDTH; i++){
+        for(j = 0; j<MAP_HEIGHT; j++){
+            selected_tile = (t_map[j][i]) - 48;
+            current_index = selected_tile;
+            printf("STILE: %d /// CINDEX: %d /// i: %d /// j: %d\n",selected_tile,current_index,i,j);
+            tile.x = (current_index) * TILE_WIDTH;
+
+            p_dsttile->x = i*TILE_WIDTH;
+            p_dsttile->y = j*TILE_HEIGHT;
+            //Copie la surface donnï¿½e dans une autre surface donnï¿½e
+            SDL_BlitSurface(p_myTileset, &tile, p_myManager->pSurface, p_dsttile);
+            //On modifie l'origine x du rectangle source par rapport ï¿½ l'index sï¿½lï¿½ctionnï¿½
+
         }
-
-        //Copie la surface donnée dans une autre surface donnée
-        SDL_BlitSurface(p_myTileset, &tile, p_myManager->pSurface, p_dsttile);
-
-        //Applique le rendu complet
-        SDL_ManagerRend(p_myManager);
-
-        //Si l'index actuel est plus grand que le dernier index (dernière tile du tileset)
-        //On remet l'index actual au premier tile. Sinon, on l'incrémente de 1 à chaque nouveau tile affiché
-        if(current_index > index_end)
-        {
-            current_index = index_start;
-        }else{
-            current_index += 1;
-        }
-
-        //On modifie l'origine x du rectangle source par rapport à l'index séléctionné
-        tile.x = (current_index-1) * width;
-        SDL_Delay(200); //On attend 200ms avant d'afficher le prochain tile
     }
-    SDL_Delay(2500);
+
+
+    //Applique le rendu complet
+    SDL_ManagerRend(p_myManager);
+
+
+
+    SDL_Delay(20000);
     SDL_Manager_FREE(p_myManager);
     return 0;
 }
