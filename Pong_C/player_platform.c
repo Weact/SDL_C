@@ -17,13 +17,24 @@ pl_platform * new_player(int player_x, int player_y, int player_w, int player_h,
 
     //PLAYER MOVEMENT
 int move_player(pl_platform * player_to_move, int speed){
-    if(player_to_move->p_player_dimension->y > 400){
-        return player_to_move->p_player_dimension->y = 400;
+    /*if(player_to_move->p_player_dimension->y > (512 - player_to_move->p_player_dimension->h)){
+        return player_to_move->p_player_dimension->y = (512 - player_to_move->p_player_dimension->h*1.1);
     }
-    if(player_to_move->p_player_dimension->y > 0){
+    if(player_to_move->p_player_dimension->y > (0 + player_to_move->p_player_dimension->h)){
         return player_to_move->p_player_dimension->y += speed;
     }else{
-        return player_to_move->p_player_dimension->y = 16;
+        return player_to_move->p_player_dimension->y = player_to_move->p_player_dimension->h;
+    }*/
+
+    if(player_to_move->p_player_dimension->y < 0)
+    {
+        return player_to_move->p_player_dimension->y = 0;
+    }
+    else if(player_to_move->p_player_dimension->y > (512 - player_to_move->p_player_dimension->h)){
+        return player_to_move->p_player_dimension->y = 512 - player_to_move->p_player_dimension->h;
+    }
+    else{
+        return player_to_move->p_player_dimension->y += speed;
     }
 }
 
