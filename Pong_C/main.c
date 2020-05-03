@@ -34,19 +34,18 @@ int main(int argc, char* argv[])
     SDL_Color red = {255, 0, 0, 255};
 
     //Declaration of Players and Creation
-    pl_platform * p_player1 = new_player(10, 512/2, 10, 100, 16, blue);
-    pl_platform * p_player2 = new_player(1004, 512/2, 10, 100, 16, red);
+    pl_platform * p_player1 = new_player(10, 512/2, 10, 100, 64, blue);
+    pl_platform * p_player2 = new_player(1004, 512/2, 10, 100, 64, red);
 
     //Players Infos Displayer [DEBUG]
     display_player(p_player1);
     display_player(p_player2);
 
     //Declaration of the Ball and Creation
-    ball * p_ball = new_ball(1024/2, 512/2, 10, 10, white);
+    ball * p_ball = new_ball(1024/2, 512/2, 10, 10, white, RIGHTUP);
 
     //Ball Infos Displayer [DEBUG]
     display_ball(p_ball);
-
     while(running){
         //Background To Black
         SDL_SetRenderDrawColor(p_manager->pRenderer, black.r, black.g, black.b, black.a);
@@ -66,6 +65,8 @@ int main(int argc, char* argv[])
         //Make the Renderer
         SDL_RenderPresent(p_manager->pRenderer);
         running = event_handling(p_player1, p_player2);
+        move_ball(p_ball, 0.1, 0.1);
+        ball_bounce(p_ball, p_player1, p_player2);
     }
 
     SDL_Manager_FREE(p_manager); //Destroy SDL Manager

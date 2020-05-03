@@ -2,7 +2,7 @@
 1588181133 source:h:\sdl_c\pong_c\sdl_manager.c
 	"sdl_manager.h"
 
-1588450082 source:h:\sdl_c\pong_c\main.c
+1588526917 source:h:\sdl_c\pong_c\main.c
 	<stdio.h>
 	<stdlib.h>
 	"../SDL2/SDL.h"
@@ -374,7 +374,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1588424950 source:h:\sdl_c\pong_c\player_platform.c
+1588528115 source:h:\sdl_c\pong_c\player_platform.c
 	"player_platform.h"
 
 1588266997 source:h:\sdl_c\pong_c\inputmanager.c
@@ -385,12 +385,11 @@
 	<stdio.h>
 	<stdlib.h>
 
-1588357018 source:h:\sdl_c\pong_c\sdl_game_event.c
+1588524198 source:h:\sdl_c\pong_c\sdl_game_event.c
 	"SDL_Game_Event.h"
-	"InputManager.h"
 	"player_platform.h"
 
-1588351919 h:\sdl_c\pong_c\sdl_game_event.h
+1588520616 h:\sdl_c\pong_c\sdl_game_event.h
 	"../SDL2/SDL.h"
 	"player_platform.h"
 	<stdio.h>
@@ -405,12 +404,13 @@
 	<stdlib.h>
 	<math.h>
 
-1588450360 h:\sdl_c\pong_c\ball.h
+1588525934 h:\sdl_c\pong_c\ball.h
 	"../SDL2/SDL.h"
+	"player_platform.h"
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
 
-1588450360 source:h:\sdl_c\pong_c\ball.c
+1588527568 source:h:\sdl_c\pong_c\ball.c
 	"ball.h"
 

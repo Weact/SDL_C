@@ -1,14 +1,13 @@
 #include "SDL_Game_Event.h"
-#include "InputManager.h"
 #include "player_platform.h"
 
-int event_handling(pl_platform * p_player1, pl_platform * p_player2,int speed){
+int event_handling(pl_platform * p_player1, pl_platform * p_player2, int speed){
     SDL_Event event;
     int keydown;
     while(SDL_PollEvent(&event)){
         switch(event.type){
             case SDL_QUIT:
-                return 1;
+                return 0;
                 break;
             case SDL_KEYDOWN:
                 keydown = event.key.keysym.sym;
@@ -50,6 +49,27 @@ int event_handling(pl_platform * p_player1, pl_platform * p_player2,int speed){
                     p_player2->p_player_dimension->y = move_player(p_player2, p_player2->player_speed);
                 }
                 break;
+        }
+    }
+    return 1;
+}
+
+int wait_event(){
+    SDL_Event event;
+    int keydown;
+    while(SDL_WaitEvent(&event)){
+        switch(event.type){
+            case SDL_QUIT:
+                return 0;
+                break;
+            case SDL_KEYDOWN:
+                keydown = event.key.keysym.sym;
+                if(keydown == CONFIRM){
+                    printf("\n===========================================\n");
+                    printf("CONFIRM HAS BEEN PRESSED BY GAME EVENT HANDLER\n");
+                    printf("===========================================\n");
+                    return 1;
+                }
         }
     }
     return 1;
